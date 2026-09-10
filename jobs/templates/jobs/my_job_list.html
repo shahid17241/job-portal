@@ -1,0 +1,14 @@
+{% extends "jobs/job_list.html" %}
+
+{% block content %}
+<h1>My jobs</h1>
+{% for job in my_jobs %}
+<article>
+    <h2><a href="{% url 'job_detail' job.pk %}">{{ job.title }}</a></h2>
+    <a href="{% url 'job_update' job.pk %}">Edit</a>
+    <a href="{% url 'job_delete' job.pk %}">Delete</a>
+</article>
+{% empty %}
+<p>You have not posted any jobs.</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,1 @@
+windows-.\env_jobportal\Scripts\Activate.ps1

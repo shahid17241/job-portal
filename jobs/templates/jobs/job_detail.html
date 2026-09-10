@@ -1,0 +1,17 @@
+{% extends "jobs/job_list.html" %}
+
+{% block content %}
+<h1>{{ object.title }}</h1>
+<p>{{ object.company_name }} - {{ object.location }}</p>
+<p>{{ object.description }}</p>
+<p>Salary: {{ object.salary }}</p>
+{% if user.is_authenticated %}
+    {% if already_applied %}
+        <p>You have already applied for this job.</p>
+    {% else %}
+        <a href="{% url 'apply_to_job' object.pk %}">Apply for this job</a>
+    {% endif %}
+{% else %}
+    <a href="{% url 'login' %}?next={{ request.path }}">Log in to apply</a>
+{% endif %}
+{% endblock %}

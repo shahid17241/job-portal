@@ -1,0 +1,13 @@
+{% extends "jobs/job_list.html" %}
+
+{% block content %}
+<h1>My applications</h1>
+{% for application in my_applications %}
+<article>
+    <h2><a href="{% url 'job_detail' application.job.pk %}">{{ application.job.title }}</a></h2>
+    <p>Applied {{ application.date_applied }}</p>
+</article>
+{% empty %}
+<p>You have not applied for any jobs.</p>
+{% endfor %}
+{% endblock %}

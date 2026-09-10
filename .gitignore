@@ -1,0 +1,18 @@
+# Virtual environment
+env_jobportal/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Django
+db.sqlite3
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# Static/media
+staticfiles/
