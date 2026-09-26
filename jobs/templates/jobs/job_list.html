@@ -1,34 +1,65 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Jobs</title>
-</head>
-<body>
-    {% if messages %}
-        {% for message in messages %}<p>{{ message }}</p>{% endfor %}
-    {% endif %}
-    <nav>
-        <a href="{% url 'job_list' %}">Jobs</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'job_create' %}">Post a job</a>
-            <a href="{% url 'my_job_list' %}">My jobs</a>
-            <a href="{% url 'my_application_list' %}">My applications</a>
-            <a href="{% url 'logout' %}">Log out</a>
-        {% else %}
-            <a href="{% url 'login' %}">Log in</a>
-        {% endif %}
-    </nav>
-    {% block content %}
-    <h1>Available jobs</h1>
-    {% for job in all_jobs %}
-        <article>
-            <h2><a href="{% url 'job_detail' job.pk %}">{{ job.title }}</a></h2>
-            <p>{{ job.company_name }} - {{ job.location }}</p>
-        </article>
-    {% empty %}
-        <p>No jobs are currently available.</p>
-    {% endfor %}
-    {% endblock %}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Jobs | Job Portal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="page-header py-4 py-lg-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <p class="text-uppercase text-primary fw-semibold small mb-2">Your next opportunity</p>
+                <h1 class="display-5 fw-bold mb-3">Find work that fits your future.</h1>
+                <p class="lead text-muted mb-0">Explore thoughtful opportunities from companies looking for their next great hire.</p>
+            </div>
+            <div class="col-lg-5">
+                <div class="form-panel p-3 p-md-4">
+                    <label for="job-search" class="form-label">Search available jobs</label>
+                    <div class="input-group">
+                        <input id="job-search" type="search" class="form-control" placeholder="Search by title or location" aria-label="Search by title or location">
+                        <button type="button" class="btn btn-primary" disabled>Search</button>
+                    </div>
+                    <p class="text-muted small mb-0 mt-2">Search will be available soon.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section aria-labelledby="available-jobs-heading">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-4">
+            <div>
+                <p class="text-uppercase text-primary fw-semibold small mb-1">Open roles</p>
+                <h2 id="available-jobs-heading" class="section-title h3 mb-0">Available jobs</h2>
+            </div>
+            <span class="text-muted small">New opportunities, listed regularly</span>
+        </div>
+
+        <div class="row g-4">
+            {% for job in all_jobs %}
+                <div class="col-md-6 col-xl-4">
+                    <article class="job-card d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                            <span class="badge text-bg-light">Open role</span>
+                            <span class="text-muted small">{{ job.date_posted }}</span>
+                        </div>
+                        <h3 class="h5 mb-2"><a href="{% url 'job_detail' job.pk %}">{{ job.title }}</a></h3>
+                        <p class="fw-semibold mb-2">{{ job.company_name }}</p>
+                        <p class="job-meta mb-3">{{ job.location }}</p>
+                        <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center gap-3">
+                            <span class="fw-semibold">${{ job.salary }}</span>
+                            <a class="btn btn-outline-primary btn-sm" href="{% url 'job_detail' job.pk %}">View role</a>
+                        </div>
+                    </article>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="detail-panel text-center py-5">
+                        <p class="display-6 mb-3" aria-hidden="true">&#128221;</p>
+                        <h3 class="h4">No jobs just yet</h3>
+                        <p class="text-muted mb-0">New opportunities are on the way. Check back soon.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
