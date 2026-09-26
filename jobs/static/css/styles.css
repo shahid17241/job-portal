@@ -1,0 +1,138 @@
+:root {
+    --portal-ink: #172a3a;
+    --portal-blue: #1f5f7a;
+    --portal-accent: #e07a5f;
+    --portal-surface: #ffffff;
+    --portal-muted: #64748b;
+    --portal-border: #dbe4ea;
+    --portal-background: #f4f7f9;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--portal-background);
+    color: var(--portal-ink);
+}
+
+.site-header {
+    background: var(--portal-ink);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: #ffffff;
+}
+
+.btn-accent {
+    background: var(--portal-accent);
+    border-color: var(--portal-accent);
+    color: #ffffff;
+}
+
+.btn-accent:hover,
+.btn-accent:focus {
+    background: #c9634c;
+    border-color: #c9634c;
+    color: #ffffff;
+}
+
+.site-main {
+    min-height: calc(100vh - 138px);
+    padding: 2rem 0 4rem;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-header h1,
+.section-title {
+    color: var(--portal-ink);
+    font-weight: 700;
+}
+
+.job-card,
+.form-panel,
+.detail-panel,
+.confirmation-panel,
+.auth-panel {
+    background: var(--portal-surface);
+    border: 1px solid var(--portal-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(23, 42, 58, 0.06);
+}
+
+.job-card {
+    height: 100%;
+    padding: 1.5rem;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.job-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.75rem 1.75rem rgba(23, 42, 58, 0.1);
+}
+
+.job-card h2 a {
+    color: var(--portal-ink);
+    text-decoration: none;
+}
+
+.job-card h2 a:hover {
+    color: var(--portal-blue);
+}
+
+.job-meta,
+.text-muted {
+    color: var(--portal-muted) !important;
+}
+
+.form-panel,
+.detail-panel,
+.confirmation-panel,
+.auth-panel {
+    padding: 2rem;
+}
+
+.form-label {
+    font-weight: 600;
+}
+
+.form-control,
+.form-select {
+    border-color: var(--portal-border);
+    padding: 0.7rem 0.85rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--portal-blue);
+    box-shadow: 0 0 0 0.2rem rgba(31, 95, 122, 0.15);
+}
+
+.site-footer {
+    padding: 1.5rem 0;
+    background: #e9eff2;
+    color: var(--portal-muted);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        align-items: stretch !important;
+        padding: 1rem 0;
+    }
+
+    .navbar-nav .btn {
+        margin: 0.5rem 0;
+    }
+}
