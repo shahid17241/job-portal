@@ -79,7 +79,7 @@ def apply_to_job(request, pk):
     )
     if created:
         messages.success(request, 'Your application was submitted.')
-
+        #confirmation email to the applicant
         if request.user.email:
             send_mail(
                 subject='Your application was submitted',
@@ -91,6 +91,21 @@ def apply_to_job(request, pk):
                 ),
                 from_email=None,
                 recipient_list=[request.user.email],
+            )
+        
+        #Notification emmail to the employer who posted this job    
+        employer_email = job.posted_by.email
+        if employer_email:
+            send_mail(
+                subject=f"New application for {job.title}",
+                message=(
+                    f"Hello {job.posted_by.username},\n\n"
+                    f"{request.user.username} has applied for "
+                    f"{job.title} at {job.company_name}.\n\n"
+                    "Please log in to your Job Portal account to review the application"
+                ),
+                from_email=None,
+                recipient_list=[employer_email],
             )
     else:
         messages.info(request, 'You have already applied for this job.')
