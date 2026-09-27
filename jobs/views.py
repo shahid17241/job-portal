@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.core.mail import send_mail
 
 from .models import Application, Job
 from .forms import Jobform
@@ -78,6 +79,34 @@ def apply_to_job(request, pk):
     )
     if created:
         messages.success(request, 'Your application was submitted.')
+        #confirmation email to the applicant
+        if request.user.email:
+            send_mail(
+                subject='Your application was submitted',
+                message=(
+                    f"Hi {request.user.username},\n\n"
+                    f"Your application for {job.title} at "
+                    f"{job.company_name} was submitted successfully.\n\n"
+                    "Thank you for using our Job Portal."
+                ),
+                from_email=None,
+                recipient_list=[request.user.email],
+            )
+        
+        #Notification emmail to the employer who posted this job    
+        employer_email = job.posted_by.email
+        if employer_email:
+            send_mail(
+                subject=f"New application for {job.title}",
+                message=(
+                    f"Hello {job.posted_by.username},\n\n"
+                    f"{request.user.username} has applied for "
+                    f"{job.title} at {job.company_name}.\n\n"
+                    "Please log in to your Job Portal account to review the application"
+                ),
+                from_email=None,
+                recipient_list=[employer_email],
+            )
     else:
         messages.info(request, 'You have already applied for this job.')
     return redirect('job_detail', pk=job.pk)
