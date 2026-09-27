@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.core.mail import send_mail
 
 from .models import Application, Job
 from .forms import Jobform
@@ -78,6 +79,19 @@ def apply_to_job(request, pk):
     )
     if created:
         messages.success(request, 'Your application was submitted.')
+
+        if request.user.email:
+            send_mail(
+                subject='Your application was submitted',
+                message=(
+                    f"Hi {request.user.username},\n\n"
+                    f"Your application for {job.title} at "
+                    f"{job.company_name} was submitted successfully.\n\n"
+                    "Thank you for using our Job Portal."
+                ),
+                from_email=None,
+                recipient_list=[request.user.email],
+            )
     else:
         messages.info(request, 'You have already applied for this job.')
     return redirect('job_detail', pk=job.pk)
